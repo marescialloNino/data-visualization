@@ -37,25 +37,27 @@ namespace data_visualization
                 return;
             }
 
-            // Example: Calculate and display the average age
-            double averageAge = StatisticsUtility.CalculateMean(_records.Select(r => (double)r.Age).ToList());
-            AverageAge.Text = "Average Age: " + averageAge.ToString("F2");
 
 
             // Create and display a histogram of Total Bilirubin
-            List<double> age = _records.Select(r => (double)r.Age.Value).ToList();
+            List<double> hasDesease = _records.Select(r => (double)r.Dataset).ToList();
             
-            List<double> bilirubinData = _records.Select(r => r.TotalBilirubin ?? 0).ToList(); // Handling potential null values
-            PlotModel bilirubinHistogram = PlotUtility.CreateHistogram("age", age);
-            plotViewHistogram.Model = bilirubinHistogram;  // plotViewHistogram is the PlotView control for histograms
+
+            var plotModel = PlotUtility.CreateBinaryDataPlot(
+                                                    records: _records,
+                                                    title: "Gender Distribution",
+                                                    labels: new Dictionary<int, string> { { 0, "Male" }, { 1, "Female" } }
+                                                );
+
+            plotViewHistogram.Model = plotModel;
 
             // Create and display a scatter plot of Age vs Total Bilirubin
             List<double> ageData = _records.Select(r => (double)r.Age).ToList();
-            List<double> bilirubinLevels = _records.Select(r => r.TotalBilirubin ?? 0).ToList();  // Handling potential null values
+            List<double> bilirubinLevels = _records.Select(r => r.TotalBilirubin).ToList();  // Handling potential null values
             PlotModel ageBilirubinScatterPlot = PlotUtility.CreateScatterPlot("Scatter Plot of Age vs Total Bilirubin", ageData, bilirubinLevels);
             plotViewScatter.Model = ageBilirubinScatterPlot;  // plotViewScatter is the PlotView control for scatter plots
 
-            List<double> data = _records.Select(r => r.TotalBilirubin ?? 0).ToList();  // Using Total Bilirubin as an example
+            List<double> data = _records.Select(r => r.TotalBilirubin).ToList();  // Using Total Bilirubin as an example
             PlotModel BilirubinDensityPlot = PlotUtility.CreateDensityPlot("Density Plot of Total Bilirubin", data);
             plotViewDensity.Model = BilirubinDensityPlot;  // plotView is your OxyPlot PlotView control on the form
 

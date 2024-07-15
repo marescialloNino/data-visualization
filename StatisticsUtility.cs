@@ -44,13 +44,13 @@ namespace data_visualization
         {
             // Extracting numeric fields into separate lists
             List<double> ages = records.Select(x => (double)x.Age).ToList();
-            List<double> totalBilirubins = records.Select(x => x.TotalBilirubin.Value).ToList();
-            List<double> directBilirubins = records.Select(x => x.DirectBilirubin.Value).ToList();
-            List<double> alkalinePhosphotases = records.Select(x => (double)x.AlkalinePhosphotase.Value).ToList();
-            List<double> alamineAminotransferases = records.Select(x => (double)x.AlamineAminotransferase.Value).ToList();
-            List<double> aspartateAminotransferases = records.Select(x => (double)x.AspartateAminotransferase.Value).ToList();
-            List<double> totalProtiens = records.Select(x => x.TotalProtiens.Value).ToList();
-            List<double> albumins = records.Select(x => x.Albumin.Value).ToList();
+            List<double> totalBilirubins = records.Select(x => x.TotalBilirubin).ToList();
+            List<double> directBilirubins = records.Select(x => x.DirectBilirubin).ToList();
+            List<double> alkalinePhosphotases = records.Select(x => (double)x.AlkalinePhosphotase).ToList();
+            List<double> alamineAminotransferases = records.Select(x => (double)x.AlamineAminotransferase).ToList();
+            List<double> aspartateAminotransferases = records.Select(x => (double)x.AspartateAminotransferase).ToList();
+            List<double> totalProtiens = records.Select(x => x.TotalProtiens).ToList();
+            List<double> albumins = records.Select(x => x.Albumin).ToList();
             List<double> albuminAndGlobulinRatios = records.Select(x => x.AlbuminAndGlobulinRatio.Value).ToList();
 
             // List of all columns
