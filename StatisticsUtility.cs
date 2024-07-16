@@ -49,9 +49,9 @@ namespace data_visualization
             List<double> alkalinePhosphotases = records.Select(x => (double)x.AlkalinePhosphotase).ToList();
             List<double> alamineAminotransferases = records.Select(x => (double)x.AlamineAminotransferase).ToList();
             List<double> aspartateAminotransferases = records.Select(x => (double)x.AspartateAminotransferase).ToList();
-            List<double> totalProtiens = records.Select(x => x.TotalProtiens).ToList();
+            List<double> totalProtiens = records.Select(x => x.TotalProteins).ToList();
             List<double> albumins = records.Select(x => x.Albumin).ToList();
-            List<double> albuminAndGlobulinRatios = records.Select(x => x.AlbuminAndGlobulinRatio.Value).ToList();
+            List<double> albuminAndGlobulinRatios = records.Select(x => x.AlbuminAndGlobulinRatio).ToList();
 
             // List of all columns
             List<List<double>> columns = new List<List<double>>

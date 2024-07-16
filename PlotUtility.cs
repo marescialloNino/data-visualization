@@ -17,14 +17,15 @@ namespace data_visualization
     public static class PlotUtility{
 
 
-        public static PlotModel CreateBinaryDataPlot(List<LiverPatientRecord> records, string title, Dictionary<int, string> labels)
+        public static PlotModel CreateBinaryDataPlot(List<double> binaryData, string title, Dictionary<int, string> labels)
         {
             var model = new PlotModel { Title = title };
 
             // Define axes
-            var categoryAxis = new CategoryAxis { Position = AxisPosition.Left, Key = "GenderAxis" };
+            var categoryAxis = new CategoryAxis { Position = AxisPosition.Left };
             var valueAxis = new LinearAxis { Position = AxisPosition.Bottom, Minimum = 0 };
 
+            // Set category labels from the labels dictionary
             foreach (var label in labels)
             {
                 categoryAxis.Labels.Add(label.Value);
@@ -40,10 +41,10 @@ namespace data_visualization
                 LabelFormatString = "{0}"
             };
 
-            // Fill series with data
+            // Fill series with data based on the binaryData list
             foreach (var label in labels)
             {
-                int count = records.Count(r => r.Gender == label.Key);
+                int count = binaryData.Count(value => value == label.Key);
                 series.Items.Add(new BarItem { Value = count });
             }
 
@@ -59,7 +60,6 @@ namespace data_visualization
             {
                 StrokeThickness = 1,
                 StrokeColor = OxyColors.Black,
-                FillColor = OxyColors.SkyBlue
             };
 
             double min = data.Min();
@@ -138,82 +138,9 @@ namespace data_visualization
             return plotModel;
         }
 
-        public static void CreateAndDisplayHeatmap(double[,] matrix, PlotView plotView, string[] fieldNames)
-        {
-            var model = new PlotModel { Title = "Correlation Matrix Heatmap" };
+        
 
-            // Create a new data array with inverted Y-axis
-            double[,] invertedMatrix = new double[matrix.GetLength(0), matrix.GetLength(1)];
-            for (int i = 0; i < matrix.GetLength(0); i++)
-            {
-                for (int j = 0; j < matrix.GetLength(1); j++)
-                {
-                    invertedMatrix[matrix.GetLength(0) - 1 - i, j] = matrix[i, j];
-                }
-            }
-
-            var heatMapSeries = new HeatMapSeries
-            {
-                X0 = 0,
-                X1 = invertedMatrix.GetLength(1) - 1,
-                Y0 = 0,
-                Y1 = invertedMatrix.GetLength(0) - 1,
-                Data = invertedMatrix,
-                Interpolate = false,
-                RenderMethod = HeatMapRenderMethod.Rectangles
-            };
-
-            // Set up axes
-            var yAxis = new CategoryAxis
-            {
-                Position = AxisPosition.Left,
-                Key = "FieldAxis",
-                Labels = fieldNames.Reverse().ToList() // Reversing to align with inverted Y-axis
-            };
-
-            var xAxis = new CategoryAxis
-            {
-                Position = AxisPosition.Bottom,
-                Key = "FieldAxis",
-                Labels = fieldNames.ToList() // Assuming the fields are the same for both axes
-            };
-
-            model.Axes.Add(xAxis);
-            model.Axes.Add(yAxis);
-
-            // Adding heat map series
-            model.Series.Add(heatMapSeries);
-
-            // Adding text annotations for each cell
-            for (int i = 0; i < invertedMatrix.GetLength(0); i++)
-            {
-                for (int j = 0; j < invertedMatrix.GetLength(1); j++)
-                {
-                    var annotation = new TextAnnotation
-                    {
-                        Text = invertedMatrix[i, j].ToString("0.00"),
-                        X = j,
-                        Y = i,
-                        TextHorizontalAlignment = OxyPlot.HorizontalAlignment.Center,
-                        TextVerticalAlignment = VerticalAlignment.Middle
-                    };
-                    model.Annotations.Add(annotation);
-                }
-            }
-
-            // Define color axis
-            model.Axes.Add(new LinearColorAxis
-            {
-                Palette = OxyPalettes.Jet(200),
-                Position = AxisPosition.Right,
-                HighColor = OxyColors.Gray,
-                LowColor = OxyColors.Black
-            });
-
-            plotView.Model = model;
-        }
-
-       /* public static void CreateAndDisplayHeatmap(double[,] matrix, PlotView plotView)
+        public static void CreateAndDisplayHeatmap(double[,] matrix, PlotView plotView)
         {
             var model = new PlotModel { Title = "Correlation Matrix Heatmap" };
             // Create a new data array with inverted Y-axis to obtain the "right" correlation matrix
@@ -239,6 +166,21 @@ namespace data_visualization
                 Interpolate = false,  // Disable smoothing
                 RenderMethod = HeatMapRenderMethod.Rectangles // Use rectangles for rendering each cell
             };
+
+            // Cake type axis (vertical)
+            model.Axes.Add(new CategoryAxis
+            {
+                Position = AxisPosition.Bottom,
+                Key = "fields axis",
+                ItemsSource = new[]
+                    {
+                        "age",
+                        "bilirubin",
+                        "Bundt cake", 
+                        "Chocolate cake",
+                        "Carrot cake","","","","",""
+                    }
+            });
             // Define color axis
             // Define the color axis for the model, not directly on the heatMapSeries
             model.Axes.Add(new LinearColorAxis
@@ -251,6 +193,6 @@ namespace data_visualization
 
             model.Series.Add(heatMapSeries);
             plotView.Model = model;
-        } */
+        } 
     }
 }

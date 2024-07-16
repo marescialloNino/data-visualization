@@ -37,35 +37,42 @@ namespace data_visualization
                 return;
             }
 
+            Dictionary<string, List<double>> dataDictionary = DataUtility.ExtractFieldDataAsDoubles(_records);
 
 
-            // Create and display a histogram of Total Bilirubin
-            List<double> hasDesease = _records.Select(r => (double)r.Dataset).ToList();
-            
+            // DATA ANALYSIS PLOTS
 
-            var plotModel = PlotUtility.CreateBinaryDataPlot(
-                                                    records: _records,
+            var genderCount = PlotUtility.CreateBinaryDataPlot(
+                                                    dataDictionary["Gender"],
                                                     title: "Gender Distribution",
                                                     labels: new Dictionary<int, string> { { 0, "Male" }, { 1, "Female" } }
                                                 );
 
-            plotViewHistogram.Model = plotModel;
+            plotViewGenderCount.Model = genderCount;
 
-            // Create and display a scatter plot of Age vs Total Bilirubin
-            List<double> ageData = _records.Select(r => (double)r.Age).ToList();
-            List<double> bilirubinLevels = _records.Select(r => r.TotalBilirubin).ToList();  // Handling potential null values
-            PlotModel ageBilirubinScatterPlot = PlotUtility.CreateScatterPlot("Scatter Plot of Age vs Total Bilirubin", ageData, bilirubinLevels);
-            plotViewScatter.Model = ageBilirubinScatterPlot;  // plotViewScatter is the PlotView control for scatter plots
+            var hasDiseaseCount = PlotUtility.CreateBinaryDataPlot(
+                                        dataDictionary["Dataset"],
+                                        title: "Liver Disease Count",
+                                        labels: new Dictionary<int, string> { { 1, "Desease" }, { 2, "No Desease" } }
+                                    );
 
-            List<double> data = _records.Select(r => r.TotalBilirubin).ToList();  // Using Total Bilirubin as an example
-            PlotModel BilirubinDensityPlot = PlotUtility.CreateDensityPlot("Density Plot of Total Bilirubin", data);
-            plotViewDensity.Model = BilirubinDensityPlot;  // plotView is your OxyPlot PlotView control on the form
+            plotViewHasDiseaseCount.Model = hasDiseaseCount;
 
             // Calculate the correlation matrix
             double[,] matrix = StatisticsUtility.CalculateCorrelationMatrixForLiverPatientRecords(_records);
 
             // Display the matrix
             PlotUtility.CreateAndDisplayHeatmap(matrix, plotViewHeatMap);
+
+
+            PlotModel ageDistributionPlot = PlotUtility.CreateHistogram("Age Distribution", dataDictionary["Age"]);
+            plotViewAgeDistribution.Model = ageDistributionPlot;  
+
+            List<double> data = _records.Select(r => r.TotalBilirubin).ToList();  // Using Total Bilirubin as an example
+            PlotModel BilirubinDensityPlot = PlotUtility.CreateDensityPlot("Density Plot of Total Bilirubin", data);
+            plotViewDensity.Model = BilirubinDensityPlot;  
+            
+
 
         }
 

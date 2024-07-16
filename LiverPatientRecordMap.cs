@@ -24,7 +24,7 @@ namespace data_visualization
             Map(m => m.AlkalinePhosphotase).Index(4);
             Map(m => m.AlamineAminotransferase).Index(5);
             Map(m => m.AspartateAminotransferase).Index(6);
-            Map(m => m.TotalProtiens).Index(7);
+            Map(m => m.TotalProteins).Index(7);
             Map(m => m.Albumin).Index(8);
             Map(m => m.AlbuminAndGlobulinRatio).Index(9).Default(0.95); // handle missing values
             Map(m => m.Dataset).Index(10);

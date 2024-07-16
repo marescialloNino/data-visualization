@@ -16,9 +16,9 @@ namespace data_visualization
         public int AlkalinePhosphotase { get; set; }
         public int AlamineAminotransferase { get; set; }
         public int AspartateAminotransferase { get; set; }
-        public double TotalProtiens { get; set; }
+        public double TotalProteins { get; set; }
         public double Albumin { get; set; }
-        public double? AlbuminAndGlobulinRatio { get; set; } // some values in the dataset might not be present
+        public double AlbuminAndGlobulinRatio { get; set; } // some values in the dataset might not be present
         public int Dataset { get; set; } // 1: has disease, 2: no disease
     }
 }
