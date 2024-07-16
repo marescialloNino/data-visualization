@@ -47,7 +47,7 @@
             List<double> aspartateAminotransferaseData = records.Select(r => (double)r.AspartateAminotransferase).ToList();
             fieldData.Add("AspartateAminotransferase", aspartateAminotransferaseData);
             List<double> totalProteinsData = records.Select(r => r.TotalProteins).ToList();
-            fieldData.Add("TotalProteins", totalProteinsData);
+            fieldData.Add("TotalProtiens", totalProteinsData);
             List<double> albuminData = records.Select(r => r.Albumin).ToList();
             fieldData.Add("Albumin", albuminData); 
             List<double> albuminAndGlobulinRatioData = records.Select(r => r.AlbuminAndGlobulinRatio).ToList();

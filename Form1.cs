@@ -2,6 +2,8 @@ using OxyPlot.Series;
 using OxyPlot;
 using OxyPlot.WindowsForms;
 using System.Linq;
+using System.Windows.Forms;
+using Accord.Statistics.Models.Fields.Features;
 
 namespace data_visualization
 {
@@ -61,20 +63,115 @@ namespace data_visualization
             // Calculate the correlation matrix
             double[,] matrix = StatisticsUtility.CalculateCorrelationMatrixForLiverPatientRecords(_records);
 
-            // Display the matrix
+            // Display the heatmap
             PlotUtility.CreateAndDisplayHeatmap(matrix, plotViewHeatMap);
+
+            // Display the matrix
+            DisplayCorrelationMatrix(matrix);
 
 
             PlotModel ageDistributionPlot = PlotUtility.CreateHistogram("Age Distribution", dataDictionary["Age"]);
-            plotViewAgeDistribution.Model = ageDistributionPlot;  
+            plotViewAgeDistribution.Model = ageDistributionPlot;
 
-            List<double> data = _records.Select(r => r.TotalBilirubin).ToList();  // Using Total Bilirubin as an example
-            PlotModel BilirubinDensityPlot = PlotUtility.CreateDensityPlot("Density Plot of Total Bilirubin", data);
-            plotViewDensity.Model = BilirubinDensityPlot;  
+            string[][] highCorrFeatures = new string[][]
+                    {
+                                new string[] {"Gender","TotalBilirubin" },
+                                new string[] { "AlamineAminotransferase", "AlkalinePhosphotase" },
+                                new string[] { "AspartateAminotransferase", "TotalProtiens" },
+                                new string[] { "Albumin", "TotalProtiens" },
+                                new string[] { "AlbuminAndGlobulinRatio", "Albumin" },
+                    };
+
             
+
+            PlotView[] views = [plotView1, plotView2, plotView3,
+                                plotView4, plotView5, plotView6,
+                                plotView7, plotView8, plotView9,
+                                plotView10, plotView11, plotView12,
+                                plotView13, plotView14, plotView15];
+
+            int j = 0;
+
+            foreach ( string[] features in highCorrFeatures)
+            {
+                int i = 0;
+
+                PlotModel densityPlot1 = PlotUtility.CreateDensityPlot($"Density Plot of {features[i]}", dataDictionary[features[i]]);
+                views[j].Model = densityPlot1;
+                i++; j++;
+                PlotModel densityPlot2 = PlotUtility.CreateDensityPlot($"Density Plot of {features[i]}", dataDictionary[features[i]]);
+                views[j].Model = densityPlot2;
+                i++; j++;
+
+                PlotModel scatterPlot3 = PlotUtility.CreateScatterPlot($"{features[i - 2]} vs {features[i - 1]} Scatter", dataDictionary[features[i-2]], dataDictionary[features[i-1]]);
+                views[j].Model = scatterPlot3;
+                i++; j++;
+            }
+
+
 
 
         }
 
+        private void DisplayCorrelationMatrix(double[,] corrMatrix)
+        {
+            // Example labels for the variables
+            string[] labels = new string[]
+                                {
+                                    "Age",
+                                    "Gender",
+                                    "Total Bilirubin",
+                                    "Direct Bilirubin",
+                                    "Alkaline Phosphotase",
+                                    "Alamine Aminotransferase",
+                                    "Aspartate Aminotransferase",
+                                    "Total Protiens",
+                                    "Albumin",
+                                    "Albumin and Globulin Ratio"
+                                };
+
+
+            int size = corrMatrix.GetLength(0); // Assuming a square matrix
+
+            // Clear existing data
+            dataGridCorrelationMatrix.Columns.Clear();
+            dataGridCorrelationMatrix.Rows.Clear();
+            dataGridCorrelationMatrix.ColumnHeadersVisible = true;
+            dataGridCorrelationMatrix.RowHeadersVisible = true;
+
+            // Set up the columns based on the matrix size
+            dataGridCorrelationMatrix.ColumnCount = size;
+            for (int i = 0; i < size; i++)
+            {
+                dataGridCorrelationMatrix.Columns[i].Name = labels[i];
+                dataGridCorrelationMatrix.Columns[i].HeaderCell.Value = labels[i]; // Setting column headers
+            }
+
+            // Adding rows and setting row headers
+            for (int i = 0; i < size; i++)
+            {
+                dataGridCorrelationMatrix.Rows.Add();
+                dataGridCorrelationMatrix.Rows[i].HeaderCell.Value = labels[i]; // Setting row headers
+            }
+
+            // Populate the DataGridView with values from the matrix
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    dataGridCorrelationMatrix[i, j].Value = corrMatrix[i, j].ToString("F2"); // Format for display
+                }
+            }
+
+            // Optional: Improve the appearance
+            dataGridCorrelationMatrix.AutoResizeColumns();
+            dataGridCorrelationMatrix.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridCorrelationMatrix.AutoResizeRowHeadersWidth(DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
+        }
+
+        private void plotViewHeatMap_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

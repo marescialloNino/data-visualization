@@ -11,6 +11,7 @@ using OxyPlot.Axes;
 using OxyPlot.WindowsForms;
 using System.Reflection;
 using OxyPlot.Annotations;
+using System.Windows.Forms;
 
 namespace data_visualization
 {
@@ -100,10 +101,14 @@ namespace data_visualization
         return plotModel;
     }
 
-        public static PlotModel CreateDensityPlot(string title, List<double> data, double bandwidth = 1)
+        public static PlotModel CreateDensityPlot(string title, List<double> data)
         {
-            // Setup the Gaussian kernel with the specified bandwidth (found the bandwidth in heuristic way based
-            // on the fields)
+            // Setup the Gaussian kernel with the specified bandwidth (found the bandwidth with Silverman 
+            // rule of thumb)
+
+            double stdDev = StatisticsUtility.CalculateStandardDeviation(data);
+            double bandwidth = 1.06 * stdDev * Math.Pow(data.Count, -0.2);
+
             var kernel = new Gaussian(bandwidth);
 
             PlotModel plotModel = new PlotModel { Title = title };
@@ -143,44 +148,20 @@ namespace data_visualization
         public static void CreateAndDisplayHeatmap(double[,] matrix, PlotView plotView)
         {
             var model = new PlotModel { Title = "Correlation Matrix Heatmap" };
-            // Create a new data array with inverted Y-axis to obtain the "right" correlation matrix
-            double[,] invertedMatrix = new double[matrix.GetLength(0), matrix.GetLength(1)];
-            for (int i = 0; i < matrix.GetLength(0); i++)
-            {
-                for (int j = 0; j < matrix.GetLength(1); j++)
-                {
-                    // Invert the index for the Y-axis
-                    invertedMatrix[matrix.GetLength(0) - 1 - i, j] = matrix[i, j];
-                }
-            }
+    
 
             var heatMapSeries = new HeatMapSeries
             {
                 X0 = 0,
-                X1 = invertedMatrix.GetLength(1) - 1,
-                Y0 = 0,
-                Y1 = invertedMatrix.GetLength(0) - 1,
-                Data = invertedMatrix,
+                X1 = matrix.GetLength(1) ,
+                Y0 = matrix.GetLength(0) ,
+                Y1 = 0,
+                Data = matrix,
                // Interpolate = true,
                // RenderMethod = HeatMapRenderMethod.Bitmap
                 Interpolate = false,  // Disable smoothing
                 RenderMethod = HeatMapRenderMethod.Rectangles // Use rectangles for rendering each cell
             };
-
-            // Cake type axis (vertical)
-            model.Axes.Add(new CategoryAxis
-            {
-                Position = AxisPosition.Bottom,
-                Key = "fields axis",
-                ItemsSource = new[]
-                    {
-                        "age",
-                        "bilirubin",
-                        "Bundt cake", 
-                        "Chocolate cake",
-                        "Carrot cake","","","","",""
-                    }
-            });
             // Define color axis
             // Define the color axis for the model, not directly on the heatMapSeries
             model.Axes.Add(new LinearColorAxis
@@ -193,6 +174,8 @@ namespace data_visualization
 
             model.Series.Add(heatMapSeries);
             plotView.Model = model;
-        } 
+        }
+
+        
     }
 }
