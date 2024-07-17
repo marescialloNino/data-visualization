@@ -28,8 +28,16 @@
             }
         }
 
-        public static Dictionary<string, List<double>> ExtractFieldDataAsDoubles(List<LiverPatientRecord> records)
+        public static Dictionary<string, List<double>> ExtractFieldDataAsDoubles(List<LiverPatientRecord> recordsList,
+                                                                                int? genderFilter = null,
+                                                                                int? diseaseFilter = null)
+                                                                                
         {
+            // Apply filters only if they are not null
+            List<LiverPatientRecord> records = recordsList
+                .Where(r => (!genderFilter.HasValue || r.Gender == genderFilter.Value) &&
+                            (!diseaseFilter.HasValue || r.Dataset == diseaseFilter.Value))
+                .ToList();
             Dictionary<string, List<double>> fieldData = new Dictionary<string, List<double>>();
 
             List<double> ageData = records.Select(r => (double)r.Age).ToList();

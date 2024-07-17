@@ -20,7 +20,7 @@ namespace data_visualization
 
         public static PlotModel CreateBinaryDataPlot(List<double> binaryData, string title, Dictionary<int, string> labels)
         {
-            var model = new PlotModel { Title = title };
+            var model = new PlotModel { Title = title, TitleFontSize = 12 };
 
             // Define axes
             var categoryAxis = new CategoryAxis { Position = AxisPosition.Left };
@@ -56,7 +56,7 @@ namespace data_visualization
 
         public static PlotModel CreateHistogram(string title, List<double> data, int bins = 10)
         {
-            PlotModel plotModel = new PlotModel { Title = title };
+            PlotModel plotModel = new PlotModel { Title = title, TitleFontSize = 12 };
             HistogramSeries histogramSeries = new HistogramSeries
             {
                 StrokeThickness = 1,
@@ -86,8 +86,8 @@ namespace data_visualization
 
         public static PlotModel CreateScatterPlot(string title, List<double> xData, List<double> yData)
     {
-        PlotModel plotModel = new PlotModel { Title = title };
-        ScatterSeries scatterSeries = new ScatterSeries { MarkerType = MarkerType.Circle };
+        PlotModel plotModel = new PlotModel { Title = title, TitleFontSize = 12};
+        ScatterSeries scatterSeries = new ScatterSeries { MarkerType = MarkerType.Circle , MarkerSize = 2};
 
         for (int i = 0; i < xData.Count; i++)
         {
@@ -97,7 +97,25 @@ namespace data_visualization
             }
         }
 
-        plotModel.Series.Add(scatterSeries);
+            var xAxis = new LinearAxis
+            {
+                Position = AxisPosition.Bottom,
+                MajorGridlineStyle = LineStyle.Solid,
+                MajorGridlineColor = OxyColor.Parse("#E0E0E0") // Light gray grid lines
+            };
+
+            var yAxis = new LinearAxis
+            {
+                Position = AxisPosition.Left,
+                MajorGridlineStyle = LineStyle.Solid,
+                MajorGridlineColor = OxyColor.Parse("#E0E0E0")
+            };
+
+            // Adding the axes to the plot model
+            plotModel.Axes.Add(xAxis);
+            plotModel.Axes.Add(yAxis);
+
+            plotModel.Series.Add(scatterSeries);
         return plotModel;
     }
 
@@ -111,7 +129,7 @@ namespace data_visualization
 
             var kernel = new Gaussian(bandwidth);
 
-            PlotModel plotModel = new PlotModel { Title = title };
+            PlotModel plotModel = new PlotModel { Title = title, TitleFontSize = 12 };
             LineSeries series = new LineSeries();
 
             double min = data.Min();
@@ -147,7 +165,7 @@ namespace data_visualization
 
         public static void CreateAndDisplayHeatmap(double[,] matrix, PlotView plotView)
         {
-            var model = new PlotModel { Title = "Correlation Matrix Heatmap" };
+            var model = new PlotModel { Title = "Correlation Matrix Heatmap", TitleFontSize = 12 };
     
 
             var heatMapSeries = new HeatMapSeries

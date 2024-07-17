@@ -40,24 +40,13 @@ namespace data_visualization
             return Math.Sqrt((sum) / values.Count);
         }
 
-        public static double[,] CalculateCorrelationMatrixForLiverPatientRecords(List<LiverPatientRecord> records)
+        public static double[,] CalculateCorrelationMatrixForLiverPatientRecords(Dictionary<string, List<double>> recordsDict)
         {
-            // Extracting numeric fields into separate lists
-            List<double> ages = records.Select(x => (double)x.Age).ToList();
-            List<double> totalBilirubins = records.Select(x => x.TotalBilirubin).ToList();
-            List<double> directBilirubins = records.Select(x => x.DirectBilirubin).ToList();
-            List<double> alkalinePhosphotases = records.Select(x => (double)x.AlkalinePhosphotase).ToList();
-            List<double> alamineAminotransferases = records.Select(x => (double)x.AlamineAminotransferase).ToList();
-            List<double> aspartateAminotransferases = records.Select(x => (double)x.AspartateAminotransferase).ToList();
-            List<double> totalProtiens = records.Select(x => x.TotalProteins).ToList();
-            List<double> albumins = records.Select(x => x.Albumin).ToList();
-            List<double> albuminAndGlobulinRatios = records.Select(x => x.AlbuminAndGlobulinRatio).ToList();
-
-            // List of all columns
+            
             List<List<double>> columns = new List<List<double>>
         {
-            ages, totalBilirubins, directBilirubins, alkalinePhosphotases, alamineAminotransferases,
-            aspartateAminotransferases, totalProtiens, albumins, albuminAndGlobulinRatios
+            recordsDict["Age"], recordsDict["Gender"],recordsDict["TotalBilirubin"],recordsDict["DirectBilirubin"],recordsDict["AlkalinePhosphotase"],
+            recordsDict["AlamineAminotransferase"],recordsDict["AspartateAminotransferase"],recordsDict["TotalProtiens"],recordsDict["Albumin"],recordsDict["AlbuminAndGlobulinRatio"]
         };
 
             return CalculateCorrelationMatrix(columns);

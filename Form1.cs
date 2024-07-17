@@ -40,6 +40,10 @@ namespace data_visualization
             }
 
             Dictionary<string, List<double>> dataDictionary = DataUtility.ExtractFieldDataAsDoubles(_records);
+            Dictionary<string, List<double>> maleDeseaseDictionary = DataUtility.ExtractFieldDataAsDoubles(_records, 0, 1);
+            Dictionary<string, List<double>> maleNoDiseaseDictionary = DataUtility.ExtractFieldDataAsDoubles(_records, 0, 2);
+            Dictionary<string, List<double>> femaleDiseaseDictionary = DataUtility.ExtractFieldDataAsDoubles(_records, 1, 1);
+            Dictionary<string, List<double>> femaleNoDiseaseDictionary = DataUtility.ExtractFieldDataAsDoubles(_records, 1, 2);
 
 
             // DATA ANALYSIS PLOTS
@@ -61,7 +65,7 @@ namespace data_visualization
             plotViewHasDiseaseCount.Model = hasDiseaseCount;
 
             // Calculate the correlation matrix
-            double[,] matrix = StatisticsUtility.CalculateCorrelationMatrixForLiverPatientRecords(_records);
+            double[,] matrix = StatisticsUtility.CalculateCorrelationMatrixForLiverPatientRecords(dataDictionary);
 
             // Display the heatmap
             PlotUtility.CreateAndDisplayHeatmap(matrix, plotViewHeatMap);
@@ -75,40 +79,35 @@ namespace data_visualization
 
             string[][] highCorrFeatures = new string[][]
                     {
-                                new string[] {"Gender","TotalBilirubin" },
+                                new string[] { "TotalBilirubin","DirectBilirubin" },
                                 new string[] { "AlamineAminotransferase", "AlkalinePhosphotase" },
                                 new string[] { "AspartateAminotransferase", "TotalProtiens" },
                                 new string[] { "Albumin", "TotalProtiens" },
-                                new string[] { "AlbuminAndGlobulinRatio", "Albumin" },
+                                new string[] { "AlbuminAndGlobulinRatio","Albumin" },
                     };
 
-            
 
-            PlotView[] views = [plotView1, plotView2, plotView3,
-                                plotView4, plotView5, plotView6,
-                                plotView7, plotView8, plotView9,
-                                plotView10, plotView11, plotView12,
-                                plotView13, plotView14, plotView15];
+
+            PlotView[] viewsScatter = [plotView1, plotView2, plotView3, plotView4, plotView5];
 
             int j = 0;
 
-            foreach ( string[] features in highCorrFeatures)
+            foreach (string[] features in highCorrFeatures)
             {
-                int i = 0;
 
-                PlotModel densityPlot1 = PlotUtility.CreateDensityPlot($"Density Plot of {features[i]}", dataDictionary[features[i]]);
-                views[j].Model = densityPlot1;
-                i++; j++;
-                PlotModel densityPlot2 = PlotUtility.CreateDensityPlot($"Density Plot of {features[i]}", dataDictionary[features[i]]);
-                views[j].Model = densityPlot2;
-                i++; j++;
-
-                PlotModel scatterPlot3 = PlotUtility.CreateScatterPlot($"{features[i - 2]} vs {features[i - 1]} Scatter", dataDictionary[features[i-2]], dataDictionary[features[i-1]]);
-                views[j].Model = scatterPlot3;
-                i++; j++;
+                PlotModel scatterPlot = PlotUtility.CreateScatterPlot($"{features[0]} vs {features[1]} Scatter", dataDictionary[features[0]], dataDictionary[features[1]]);
+                viewsScatter[j].Model = scatterPlot;
+                j++;
             }
 
-
+            PlotModel histogram1 = PlotUtility.CreateHistogram("Male disease by age", maleDeseaseDictionary["Age"]);
+            plotView6.Model = histogram1;
+            PlotModel histogram2 = PlotUtility.CreateHistogram("Male no disease by age", maleNoDiseaseDictionary["Age"]);
+            plotView7.Model = histogram2;
+            PlotModel histogram3 = PlotUtility.CreateHistogram("Female disease by age", femaleDiseaseDictionary["Age"]);
+            plotView8.Model = histogram3;
+            PlotModel histogram4 = PlotUtility.CreateHistogram("Female no disease by age", femaleNoDiseaseDictionary["Age"]);
+            plotView9.Model = histogram4;
 
 
         }
@@ -169,7 +168,30 @@ namespace data_visualization
             dataGridCorrelationMatrix.AutoResizeRowHeadersWidth(DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
         }
 
+
+
+
         private void plotViewHeatMap_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void plotView3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void plotView9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void dataGridCorrelationMatrix_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
