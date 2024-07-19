@@ -26,3 +26,9 @@ C:\Users\ukg11058\source\repos\data-visualization\bin\Debug\net8.0-windows\Accor
 C:\Users\ukg11058\source\repos\data-visualization\bin\Debug\net8.0-windows\Accord.Math.dll
 C:\Users\ukg11058\source\repos\data-visualization\bin\Debug\net8.0-windows\Accord.Statistics.dll
 C:\Users\ukg11058\source\repos\data-visualization\obj\Debug\net8.0-windows\data-visualization.sourcelink.json
+C:\Users\ukg11058\source\repos\data-visualization\bin\Debug\net8.0-windows\liver-disease-prediction.deps.json
+C:\Users\ukg11058\source\repos\data-visualization\bin\Debug\net8.0-windows\liver-disease-prediction.runtimeconfig.json
+C:\Users\ukg11058\source\repos\data-visualization\bin\Debug\net8.0-windows\liver-disease-prediction.exe
+C:\Users\ukg11058\source\repos\data-visualization\bin\Debug\net8.0-windows\Accord.MachineLearning.dll
+C:\Users\ukg11058\source\repos\data-visualization\bin\Debug\net8.0-windows\liver-disease-prediction.dll
+C:\Users\ukg11058\source\repos\data-visualization\bin\Debug\net8.0-windows\liver-disease-prediction.pdb

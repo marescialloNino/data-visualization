@@ -12,7 +12,8 @@
           "Accord.Statistics": "3.8.0",
           "CsvHelper": "33.0.1",
           "OxyPlot.Core": "2.1.2",
-          "OxyPlot.WindowsForms": "2.1.2"
+          "OxyPlot.WindowsForms": "2.1.2",
+          "liver-disease-prediction": "1.0.0"
         },
         "runtime": {
           "data-visualization.dll": {}
@@ -21,6 +22,19 @@
       "Accord/3.8.0": {
         "runtime": {
           "lib/netstandard2.0/Accord.dll": {
+            "assemblyVersion": "3.8.0.0",
+            "fileVersion": "3.8.0.6134"
+          }
+        }
+      },
+      "Accord.MachineLearning/3.8.0": {
+        "dependencies": {
+          "Accord": "3.8.0",
+          "Accord.Math": "3.8.0",
+          "Accord.Statistics": "3.8.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Accord.MachineLearning.dll": {
             "assemblyVersion": "3.8.0.0",
             "fileVersion": "3.8.0.6134"
           }
@@ -79,6 +93,18 @@
             "fileVersion": "2.1.2.0"
           }
         }
+      },
+      "liver-disease-prediction/1.0.0": {
+        "dependencies": {
+          "Accord": "3.8.0",
+          "Accord.MachineLearning": "3.8.0",
+          "Accord.Math": "3.8.0",
+          "Accord.Statistics": "3.8.0",
+          "CsvHelper": "33.0.1"
+        },
+        "runtime": {
+          "liver-disease-prediction.dll": {}
+        }
       }
     }
   },
@@ -94,6 +120,13 @@
       "sha512": "sha512-7kJrB570dO5ELim+2KWQNozuvWO9/BuZfZspdFy36fcWPNF2CEccblLuILeUlI8QJYd2DlBy0bfK8BlCx/uayA==",
       "path": "accord/3.8.0",
       "hashPath": "accord.3.8.0.nupkg.sha512"
+    },
+    "Accord.MachineLearning/3.8.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6d8HY6/S4t5LBgD4YWrHISDX4q9s/caBu4fbHhq5RH2U4ETbtnDcvwgtsqGHKH1FyPylWFOniYjLO4B4xkEEuw==",
+      "path": "accord.machinelearning/3.8.0",
+      "hashPath": "accord.machinelearning.3.8.0.nupkg.sha512"
     },
     "Accord.Math/3.8.0": {
       "type": "package",
@@ -129,6 +162,11 @@
       "sha512": "sha512-0RXF5bDDjJO8H/ZyE3NrrIDRVD/P9MjhcZ+Z9rlkbanHr8qZQFHn0ffe/GuTJKe8pFLZEzapDzB7wRgyUeaCIQ==",
       "path": "oxyplot.windowsforms/2.1.2",
       "hashPath": "oxyplot.windowsforms.2.1.2.nupkg.sha512"
+    },
+    "liver-disease-prediction/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

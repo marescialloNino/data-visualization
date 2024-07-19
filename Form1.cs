@@ -4,6 +4,8 @@ using OxyPlot.WindowsForms;
 using System.Linq;
 using System.Windows.Forms;
 using Accord.Statistics.Models.Fields.Features;
+using liver_disease_prediction.utility;
+using liver_disease_prediction.dataModels;
 
 namespace data_visualization
 {
@@ -19,10 +21,10 @@ namespace data_visualization
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string filePath = Path.Combine(Application.StartupPath, "indian_liver_patient.csv");
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "indian_liver_patient.csv");
             try
             {
-                _records = DataUtility.LoadDataFromCsv();
+                _records = DataUtility.LoadDataFromCsv(filePath);
                 MessageBox.Show("Data loaded successfully!");
             }
             catch (Exception ex)
@@ -41,9 +43,9 @@ namespace data_visualization
 
             Dictionary<string, List<double>> dataDictionary = DataUtility.ExtractFieldDataAsDoubles(_records);
             Dictionary<string, List<double>> maleDeseaseDictionary = DataUtility.ExtractFieldDataAsDoubles(_records, 0, 1);
-            Dictionary<string, List<double>> maleNoDiseaseDictionary = DataUtility.ExtractFieldDataAsDoubles(_records, 0, 2);
+            Dictionary<string, List<double>> maleNoDiseaseDictionary = DataUtility.ExtractFieldDataAsDoubles(_records, 0, 0);
             Dictionary<string, List<double>> femaleDiseaseDictionary = DataUtility.ExtractFieldDataAsDoubles(_records, 1, 1);
-            Dictionary<string, List<double>> femaleNoDiseaseDictionary = DataUtility.ExtractFieldDataAsDoubles(_records, 1, 2);
+            Dictionary<string, List<double>> femaleNoDiseaseDictionary = DataUtility.ExtractFieldDataAsDoubles(_records, 1, 0);
 
 
             // DATA ANALYSIS PLOTS
@@ -59,7 +61,7 @@ namespace data_visualization
             var hasDiseaseCount = PlotUtility.CreateBinaryDataPlot(
                                         dataDictionary["Dataset"],
                                         title: "Liver Disease Count",
-                                        labels: new Dictionary<int, string> { { 1, "Desease" }, { 2, "No Desease" } }
+                                        labels: new Dictionary<int, string> { { 1, "Desease" }, { 0, "No Desease" } }
                                     );
 
             plotViewHasDiseaseCount.Model = hasDiseaseCount;

@@ -18,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\liver-disease-prediction\liver-disease-prediction.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="indian_liver_patient.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
