@@ -117,4 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="label4.Text" xml:space="preserve">
+    <value>This data set contains 416 liver patient
+ records and 167 non liver patient
+ records collected from North East of
+ Andhra Pradesh, India.
+ The "Dataset" column is a class label 
+used to divide groups into liver patient
+ (liver disease) or not (no disease)</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Display of the correlation matrix and a visual representation of it with the heatmap, 
+in order to identify the high correlation couples of features to further the analysis 
+and try to reduce the dimension of the problem removing reduntant features.
+</value>
+  </data>
 </root>

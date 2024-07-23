@@ -1,9 +1,7 @@
-using OxyPlot.Series;
+
 using OxyPlot;
 using OxyPlot.WindowsForms;
-using System.Linq;
-using System.Windows.Forms;
-using Accord.Statistics.Models.Fields.Features;
+
 using liver_disease_prediction.utility;
 using liver_disease_prediction.dataModels;
 
@@ -49,7 +47,6 @@ namespace data_visualization
 
 
             // DATA ANALYSIS PLOTS
-
             var genderCount = PlotUtility.CreateBinaryDataPlot(
                                                     dataDictionary["Gender"],
                                                     title: "Gender Distribution",
@@ -61,13 +58,13 @@ namespace data_visualization
             var hasDiseaseCount = PlotUtility.CreateBinaryDataPlot(
                                         dataDictionary["Dataset"],
                                         title: "Liver Disease Count",
-                                        labels: new Dictionary<int, string> { { 1, "Desease" }, { 0, "No Desease" } }
+                                        labels: new Dictionary<int, string> { { 0, "No Desease" }, { 1, "Desease" } }
                                     );
 
             plotViewHasDiseaseCount.Model = hasDiseaseCount;
 
             // Calculate the correlation matrix
-            double[,] matrix = StatisticsUtility.CalculateCorrelationMatrixForLiverPatientRecords(dataDictionary);
+            double[,] matrix = StatisticsUtility.CalculateCorrelationMatrixForLiverPatientRecords(_records);
 
             // Display the heatmap
             PlotUtility.CreateAndDisplayHeatmap(matrix, plotViewHeatMap);
@@ -116,7 +113,6 @@ namespace data_visualization
 
         private void DisplayCorrelationMatrix(double[,] corrMatrix)
         {
-            // Example labels for the variables
             string[] labels = new string[]
                                 {
                                     "Age",
@@ -132,7 +128,7 @@ namespace data_visualization
                                 };
 
 
-            int size = corrMatrix.GetLength(0); // Assuming a square matrix
+            int size = corrMatrix.GetLength(0);
 
             // Clear existing data
             dataGridCorrelationMatrix.Columns.Clear();
@@ -164,36 +160,17 @@ namespace data_visualization
                 }
             }
 
-            // Optional: Improve the appearance
             dataGridCorrelationMatrix.AutoResizeColumns();
             dataGridCorrelationMatrix.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridCorrelationMatrix.AutoResizeRowHeadersWidth(DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
         }
 
-
-
-
-        private void plotViewHeatMap_Click(object sender, EventArgs e)
+        private void plotView4_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void plotView3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void plotView9_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void dataGridCorrelationMatrix_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void label2_Click(object sender, EventArgs e)
         {
 
         }

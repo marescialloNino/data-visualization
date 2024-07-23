@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using Accord.Statistics.Kernels;
-using Accord.Statistics.Distributions.Univariate;
 using OxyPlot.Series;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.WindowsForms;
-using System.Reflection;
-using OxyPlot.Annotations;
-using System.Windows.Forms;
 using liver_disease_prediction.utility;
 
 namespace data_visualization
@@ -19,6 +11,13 @@ namespace data_visualization
     public static class PlotUtility{
 
 
+        /// <summary>
+        /// Creates a bar plot for binary data, labeling each category with custom labels.
+        /// </summary>
+        /// <param name="binaryData">List of double values representing binary data (0 or 1).</param>
+        /// <param name="title">Title of the plot.</param>
+        /// <param name="labels">Dictionary mapping binary values to their string labels.</param>
+        /// <returns>A PlotModel object that can be used to display the plot.</returns>
         public static PlotModel CreateBinaryDataPlot(List<double> binaryData, string title, Dictionary<int, string> labels)
         {
             var model = new PlotModel { Title = title, TitleFontSize = 12 };
@@ -55,6 +54,14 @@ namespace data_visualization
             return model;
         }
 
+
+        /// <summary>
+        /// Creates a histogram from a list of data.
+        /// </summary>
+        /// <param name="title">Title of the histogram.</param>
+        /// <param name="data">List of data points for the histogram.</param>
+        /// <param name="bins">Number of bins to divide the data into (default is 10).</param>
+        /// <returns>A PlotModel object representing the histogram.</returns>
         public static PlotModel CreateHistogram(string title, List<double> data, int bins = 10)
         {
             PlotModel plotModel = new PlotModel { Title = title, TitleFontSize = 12 };
@@ -85,18 +92,26 @@ namespace data_visualization
         }
 
 
-        public static PlotModel CreateScatterPlot(string title, List<double> xData, List<double> yData)
-    {
-        PlotModel plotModel = new PlotModel { Title = title, TitleFontSize = 12};
-        ScatterSeries scatterSeries = new ScatterSeries { MarkerType = MarkerType.Circle , MarkerSize = 2};
 
-        for (int i = 0; i < xData.Count; i++)
+        /// <summary>
+        /// Creates a scatter plot from two lists of data points.
+        /// </summary>
+        /// <param name="title">Title of the scatter plot.</param>
+        /// <param name="xData">List of x-values.</param>
+        /// <param name="yData">List of y-values.</param>
+        /// <returns>A PlotModel object representing the scatter plot.</returns>
+        public static PlotModel CreateScatterPlot(string title, List<double> xData, List<double> yData)
         {
-            if (i < yData.Count)  // Ensure there is a corresponding y value for each x value
+            PlotModel plotModel = new PlotModel { Title = title, TitleFontSize = 12};
+            ScatterSeries scatterSeries = new ScatterSeries { MarkerType = MarkerType.Circle , MarkerSize = 2};
+
+            for (int i = 0; i < xData.Count; i++)
             {
-                scatterSeries.Points.Add(new ScatterPoint(xData[i], yData[i]));
+                if (i < yData.Count)  // Ensure there is a corresponding y value for each x value
+                {
+                    scatterSeries.Points.Add(new ScatterPoint(xData[i], yData[i]));
+                }
             }
-        }
 
             var xAxis = new LinearAxis
             {
@@ -117,17 +132,22 @@ namespace data_visualization
             plotModel.Axes.Add(yAxis);
 
             plotModel.Series.Add(scatterSeries);
-        return plotModel;
-    }
 
+            return plotModel;
+        }
+
+        /// <summary>
+        /// Creates a density plot from a list of data points using a Gaussian kernel.
+        /// </summary>
+        /// <param name="title">Title of the density plot.</param>
+        /// <param name="data">List of data points to be used in the density plot.</param>
+        /// <returns>A PlotModel object representing the density plot.</returns>
         public static PlotModel CreateDensityPlot(string title, List<double> data)
         {
             // Setup the Gaussian kernel with the specified bandwidth (found the bandwidth with Silverman 
-            // rule of thumb)
-
+            // rule of thumb) 
             double stdDev = StatisticsUtility.CalculateStandardDeviation(data);
             double bandwidth = 1.06 * stdDev * Math.Pow(data.Count, -0.2);
-
             var kernel = new Gaussian(bandwidth);
 
             PlotModel plotModel = new PlotModel { Title = title, TitleFontSize = 12 };
@@ -162,8 +182,12 @@ namespace data_visualization
             return plotModel;
         }
 
-        
 
+        /// <summary>
+        /// Creates and displays a heatmap for a correlation matrix using a PlotView component.
+        /// </summary>
+        /// <param name="matrix">2D array representing the correlation matrix.</param>
+        /// <param name="plotView">The PlotView component where the heatmap will be displayed.</param>
         public static void CreateAndDisplayHeatmap(double[,] matrix, PlotView plotView)
         {
             var model = new PlotModel { Title = "Correlation Matrix Heatmap", TitleFontSize = 12 };
@@ -176,25 +200,20 @@ namespace data_visualization
                 Y0 = matrix.GetLength(0) ,
                 Y1 = 0,
                 Data = matrix,
-               // Interpolate = true,
-               // RenderMethod = HeatMapRenderMethod.Bitmap
-                Interpolate = false,  // Disable smoothing
-                RenderMethod = HeatMapRenderMethod.Rectangles // Use rectangles for rendering each cell
+                Interpolate = false,  
+                RenderMethod = HeatMapRenderMethod.Rectangles 
             };
-            // Define color axis
-            // Define the color axis for the model, not directly on the heatMapSeries
+            
             model.Axes.Add(new LinearColorAxis
-            {
-                Palette = OxyPalettes.Jet(200),
-                Position = AxisPosition.Right,
-                HighColor = OxyColors.Gray, // Optionally define the colors for out-of-bounds values
-                LowColor = OxyColors.Black
-            });
+                                                {
+                                                    Palette = OxyPalettes.Jet(200),
+                                                    Position = AxisPosition.Right,
+                                                    HighColor = OxyColors.Gray, 
+                                                    LowColor = OxyColors.Black
+                                                });
 
             model.Series.Add(heatMapSeries);
             plotView.Model = model;
-        }
-
-        
+        }      
     }
 }
