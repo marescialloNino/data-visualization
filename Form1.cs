@@ -4,6 +4,8 @@ using OxyPlot.WindowsForms;
 
 using liver_disease_prediction.utility;
 using liver_disease_prediction.dataModels;
+using System.Data;
+using System.Windows.Forms;
 
 namespace data_visualization
 {
@@ -45,15 +47,21 @@ namespace data_visualization
             Dictionary<string, List<double>> femaleDiseaseDictionary = DataUtility.ExtractFieldDataAsDoubles(_records, 1, 1);
             Dictionary<string, List<double>> femaleNoDiseaseDictionary = DataUtility.ExtractFieldDataAsDoubles(_records, 1, 0);
 
+            Dictionary<string, List<double>> normalizedDataDictionary = DataUtility.GetScaledAndNormalizedData(_records);
+
 
             // DATA ANALYSIS PLOTS
             var genderCount = PlotUtility.CreateBinaryDataPlot(
                                                     dataDictionary["Gender"],
                                                     title: "Gender Distribution",
                                                     labels: new Dictionary<int, string> { { 0, "Male" }, { 1, "Female" } }
-                                                );
+            
+                                                    );
+            
+
 
             plotViewGenderCount.Model = genderCount;
+            SavePlot(genderCount, "genderCount");
 
             var hasDiseaseCount = PlotUtility.CreateBinaryDataPlot(
                                         dataDictionary["Dataset"],
@@ -62,12 +70,14 @@ namespace data_visualization
                                     );
 
             plotViewHasDiseaseCount.Model = hasDiseaseCount;
+            SavePlot(hasDiseaseCount, "hasDiseaseCount");
 
             // Calculate the correlation matrix
             double[,] matrix = StatisticsUtility.CalculateCorrelationMatrixForLiverPatientRecords(_records);
 
             // Display the heatmap
             PlotUtility.CreateAndDisplayHeatmap(matrix, plotViewHeatMap);
+            SavePlot(plotViewHeatMap.ActualModel, "plotViewHeatMap");
 
             // Display the matrix
             DisplayCorrelationMatrix(matrix);
@@ -75,6 +85,7 @@ namespace data_visualization
 
             PlotModel ageDistributionPlot = PlotUtility.CreateHistogram("Age Distribution", dataDictionary["Age"]);
             plotViewAgeDistribution.Model = ageDistributionPlot;
+            SavePlot(ageDistributionPlot, "ageDistributionPlot");
 
             string[][] highCorrFeatures = new string[][]
                     {
@@ -94,19 +105,28 @@ namespace data_visualization
             foreach (string[] features in highCorrFeatures)
             {
 
-                PlotModel scatterPlot = PlotUtility.CreateScatterPlot($"{features[0]} vs {features[1]} Scatter", dataDictionary[features[0]], dataDictionary[features[1]]);
+                PlotModel scatterPlot = PlotUtility.CreateScatterPlot($"{features[0]} vs {features[1]} Scatter", normalizedDataDictionary[features[0]], normalizedDataDictionary[features[1]]);
                 viewsScatter[j].Model = scatterPlot;
+                SavePlot(scatterPlot, $"{features[0]}_vs_{features[1]}_Scatter");
                 j++;
             }
 
             PlotModel histogram1 = PlotUtility.CreateHistogram("Male disease by age", maleDeseaseDictionary["Age"]);
             plotView6.Model = histogram1;
+            SavePlot(histogram1, "Male_disease_byage");
             PlotModel histogram2 = PlotUtility.CreateHistogram("Male no disease by age", maleNoDiseaseDictionary["Age"]);
             plotView7.Model = histogram2;
+            SavePlot(histogram2, "Male_no_disease_byage");
             PlotModel histogram3 = PlotUtility.CreateHistogram("Female disease by age", femaleDiseaseDictionary["Age"]);
             plotView8.Model = histogram3;
+            SavePlot(histogram3, "Female_disease_byage");
             PlotModel histogram4 = PlotUtility.CreateHistogram("Female no disease by age", femaleNoDiseaseDictionary["Age"]);
             plotView9.Model = histogram4;
+            SavePlot(histogram4, "Female_no_disease_byage");
+
+            dataGridViewStats.DataSource = PlotUtility.GetFeatureStatistics(_records);
+
+            
 
 
         }
@@ -164,6 +184,30 @@ namespace data_visualization
             dataGridCorrelationMatrix.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridCorrelationMatrix.AutoResizeRowHeadersWidth(DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders);
         }
+
+
+
+        private void SavePlot(PlotModel plotModel, string plotName)
+        {
+            var pngExporter = new PngExporter();
+            string directoryPath = @"C:\Users\ukg11058\source\repos\data-visualization\plots\";
+            string fileName = plotName + ".png";
+            string fullPath = Path.Combine(directoryPath, fileName);
+
+            try
+            {
+                // Ensure the directory exists
+                Directory.CreateDirectory(directoryPath);  // This will create the directory if it does not exist and do nothing if it already exists
+
+                pngExporter.ExportToFile(plotModel, fullPath);
+                ;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to save the plot: " + ex.Message);
+            }
+        }
+
 
         private void plotView4_Click(object sender, EventArgs e)
         {

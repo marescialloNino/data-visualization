@@ -57,12 +57,16 @@
             plotView4 = new OxyPlot.WindowsForms.PlotView();
             plotView1 = new OxyPlot.WindowsForms.PlotView();
             plotView3 = new OxyPlot.WindowsForms.PlotView();
+            tabPage1 = new TabPage();
+            dataGridViewStats = new DataGridView();
             tabControl1.SuspendLayout();
             DataAnalysis.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridCorrelationMatrix).BeginInit();
             tabPage3.SuspendLayout();
+            tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewStats).BeginInit();
             SuspendLayout();
             // 
             // LoadDataset
@@ -130,6 +134,7 @@
             tabControl1.Controls.Add(DataAnalysis);
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage3);
+            tabControl1.Controls.Add(tabPage1);
             tabControl1.Location = new Point(35, 12);
             tabControl1.Name = "tabControl1";
             tabControl1.RightToLeft = RightToLeft.No;
@@ -268,7 +273,7 @@
             tabPage2.Location = new Point(4, 29);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1415, 976);
+            tabPage2.Size = new Size(1486, 976);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "CorrelationAnalysis";
             tabPage2.UseVisualStyleBackColor = true;
@@ -286,10 +291,10 @@
             // dataGridCorrelationMatrix
             // 
             dataGridCorrelationMatrix.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridCorrelationMatrix.Location = new Point(10, 477);
+            dataGridCorrelationMatrix.Location = new Point(3, 477);
             dataGridCorrelationMatrix.Name = "dataGridCorrelationMatrix";
             dataGridCorrelationMatrix.RowHeadersWidth = 51;
-            dataGridCorrelationMatrix.Size = new Size(1385, 377);
+            dataGridCorrelationMatrix.Size = new Size(1477, 377);
             dataGridCorrelationMatrix.TabIndex = 11;
             // 
             // tabPage3
@@ -303,7 +308,7 @@
             tabPage3.Location = new Point(4, 29);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(1415, 976);
+            tabPage3.Size = new Size(1486, 976);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Scatter Plots";
             tabPage3.UseVisualStyleBackColor = true;
@@ -313,9 +318,8 @@
             label3.AutoSize = true;
             label3.Location = new Point(782, 554);
             label3.Name = "label3";
-            label3.Size = new Size(544, 40);
+            label3.Size = new Size(0, 20);
             label3.TabIndex = 4;
-            label3.Text = "Scatter plots of the couples of features with high correlation, in order to assess if \r\nin fact a linear relation is present and one of the two could be removed";
             // 
             // plotView5
             // 
@@ -324,7 +328,6 @@
             plotView5.PanCursor = Cursors.Hand;
             plotView5.Size = new Size(703, 252);
             plotView5.TabIndex = 0;
-            plotView5.Text = "plotView5";
             plotView5.ZoomHorizontalCursor = Cursors.SizeWE;
             plotView5.ZoomRectangleCursor = Cursors.SizeNWSE;
             plotView5.ZoomVerticalCursor = Cursors.SizeNS;
@@ -336,7 +339,6 @@
             plotView2.PanCursor = Cursors.Hand;
             plotView2.Size = new Size(712, 261);
             plotView2.TabIndex = 1;
-            plotView2.Text = "plotView2";
             plotView2.ZoomHorizontalCursor = Cursors.SizeWE;
             plotView2.ZoomRectangleCursor = Cursors.SizeNWSE;
             plotView2.ZoomVerticalCursor = Cursors.SizeNS;
@@ -348,7 +350,6 @@
             plotView4.PanCursor = Cursors.Hand;
             plotView4.Size = new Size(675, 260);
             plotView4.TabIndex = 3;
-            plotView4.Text = "plotView4";
             plotView4.ZoomHorizontalCursor = Cursors.SizeWE;
             plotView4.ZoomRectangleCursor = Cursors.SizeNWSE;
             plotView4.ZoomVerticalCursor = Cursors.SizeNS;
@@ -361,7 +362,6 @@
             plotView1.PanCursor = Cursors.Hand;
             plotView1.Size = new Size(681, 252);
             plotView1.TabIndex = 0;
-            plotView1.Text = "plotView1";
             plotView1.ZoomHorizontalCursor = Cursors.SizeWE;
             plotView1.ZoomRectangleCursor = Cursors.SizeNWSE;
             plotView1.ZoomVerticalCursor = Cursors.SizeNS;
@@ -373,10 +373,29 @@
             plotView3.PanCursor = Cursors.Hand;
             plotView3.Size = new Size(703, 260);
             plotView3.TabIndex = 2;
-            plotView3.Text = "plotView3";
             plotView3.ZoomHorizontalCursor = Cursors.SizeWE;
             plotView3.ZoomRectangleCursor = Cursors.SizeNWSE;
             plotView3.ZoomVerticalCursor = Cursors.SizeNS;
+            // 
+            // tabPage1
+            // 
+            tabPage1.BackColor = Color.Azure;
+            tabPage1.Controls.Add(dataGridViewStats);
+            tabPage1.Location = new Point(4, 29);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new Padding(3);
+            tabPage1.Size = new Size(1486, 976);
+            tabPage1.TabIndex = 3;
+            tabPage1.Text = "tabPage1";
+            // 
+            // dataGridViewStats
+            // 
+            dataGridViewStats.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewStats.Location = new Point(36, 23);
+            dataGridViewStats.Name = "dataGridViewStats";
+            dataGridViewStats.RowHeadersWidth = 51;
+            dataGridViewStats.Size = new Size(1322, 564);
+            dataGridViewStats.TabIndex = 0;
             // 
             // Form1
             // 
@@ -396,6 +415,8 @@
             ((System.ComponentModel.ISupportInitialize)dataGridCorrelationMatrix).EndInit();
             tabPage3.ResumeLayout(false);
             tabPage3.PerformLayout();
+            tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridViewStats).EndInit();
             ResumeLayout(false);
         }
 
@@ -408,23 +429,25 @@
         private TabControl tabControl1;
         private TabPage DataAnalysis;
         private TabPage tabPage2;
-        private TabPage tabPage3;
         private Label label1;
         private OxyPlot.WindowsForms.PlotView plotViewAgeDistribution;
         private DataGridView dataGridCorrelationMatrix;
-        private OxyPlot.WindowsForms.PlotView plotView4;
-        private OxyPlot.WindowsForms.PlotView plotView3;
-        private OxyPlot.WindowsForms.PlotView plotView2;
-        private OxyPlot.WindowsForms.PlotView plotView1;
-        private OxyPlot.WindowsForms.PlotView plotView5;
         private TableLayoutPanel tableLayoutPanel1;
         private OxyPlot.WindowsForms.PlotView plotView9;
         private OxyPlot.WindowsForms.PlotView plotView8;
         private OxyPlot.WindowsForms.PlotView plotView7;
         private OxyPlot.WindowsForms.PlotView plotView6;
         private Label label2;
-        private Label label3;
         private Label label4;
         private Label label5;
+        private TabPage tabPage3;
+        private Label label3;
+        private OxyPlot.WindowsForms.PlotView plotView5;
+        private OxyPlot.WindowsForms.PlotView plotView2;
+        private OxyPlot.WindowsForms.PlotView plotView4;
+        private OxyPlot.WindowsForms.PlotView plotView1;
+        private OxyPlot.WindowsForms.PlotView plotView3;
+        private TabPage tabPage1;
+        private DataGridView dataGridViewStats;
     }
 }

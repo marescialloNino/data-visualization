@@ -2,14 +2,94 @@
 using Accord.Statistics.Kernels;
 using OxyPlot.Series;
 using OxyPlot;
-using OxyPlot.Axes;
+using OxyPlot.Axes; 
 using OxyPlot.WindowsForms;
 using liver_disease_prediction.utility;
+using liver_disease_prediction.dataModels;
+using System.Data;
 
 namespace data_visualization
 {
     public static class PlotUtility{
 
+
+
+        public static DataTable GetFeatureStatistics(List<LiverPatientRecord> records)
+        {
+            Dictionary<string, List<double>> fieldData = DataUtility.ExtractFieldDataAsDoubles(records);
+            DataTable table = new DataTable();
+            table.Columns.Add("Feature", typeof(string));
+            table.Columns.Add("Mean", typeof(double));
+            table.Columns.Add("Median", typeof(double));
+            table.Columns.Add("Standard Deviation", typeof(double));
+            table.Columns.Add("Minimum", typeof(double));
+            table.Columns.Add("Maximum", typeof(double));
+            table.Columns.Add("IQR", typeof(double));
+            table.Columns.Add("Outlier Count", typeof(int));
+
+            foreach (var entry in fieldData)
+            {
+                if ((entry.Key == "Gender") || (entry.Key == "Dataset")) continue;
+                var row = table.NewRow();
+                double mean = StatisticsUtility.CalculateMean(entry.Value);
+                double median = StatisticsUtility.CalculateMedian(entry.Value);
+                double stdDev = StatisticsUtility.CalculateStandardDeviation(entry.Value);
+                double min = entry.Value.Min();
+                double max = entry.Value.Max();
+                double q1 = entry.Value.OrderBy(x => x).ElementAt((int)(0.25 * entry.Value.Count));
+                double q3 = entry.Value.OrderBy(x => x).ElementAt((int)(0.75 * entry.Value.Count));
+                double iqr = q3 - q1;
+
+                row["Feature"] = entry.Key;
+                row["Mean"] = mean;
+                row["Median"] = median;
+                row["Standard Deviation"] = stdDev;
+                row["Minimum"] = min;
+                row["Maximum"] = max;
+                row["IQR"] = iqr;
+
+                // Count outliers using IQR rule
+                int outlierCount = entry.Value.Count(x => x < q1 - 1.5 * iqr || x > q3 + 1.5 * iqr);
+                row["Outlier Count"] = outlierCount;
+
+                table.Rows.Add(row);
+            }
+
+            return table;
+        }
+        public static DataGridView CreateStatisticsTable(List<LiverPatientRecord> records)
+        {
+            // Create a new DataGridView
+            DataGridView dataGridView = new DataGridView();
+ 
+            // Set basic properties
+            dataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView.AllowUserToAddRows = false; // Disable the option to add rows
+            dataGridView.ReadOnly = true; // Set the DataGridView to be read-only
+
+            // Add columns to DataGridView
+            dataGridView.Columns.Add("Feature", "Feature");
+            dataGridView.Columns.Add("Mean", "Mean");
+            dataGridView.Columns.Add("Median", "Median");
+            dataGridView.Columns.Add("StandardDeviation", "Standard Deviation");
+ 
+           
+
+            // Populate the DataGridView with statistics for each feature
+            Dictionary<string, List<double>> fieldData = DataUtility.ExtractFieldDataAsDoubles(records);
+            foreach (var entry in fieldData)
+            {
+                if (entry.Key == "Dataset") { continue; }
+                int index = dataGridView.Rows.Add();
+                dataGridView.Rows[index].Cells["Feature"].Value = entry.Key;
+                dataGridView.Rows[index].Cells["Mean"].Value = StatisticsUtility.CalculateMean(entry.Value);
+                dataGridView.Rows[index].Cells["Median"].Value = StatisticsUtility.CalculateMedian(entry.Value);
+                dataGridView.Rows[index].Cells["StandardDeviation"].Value = StatisticsUtility.CalculateStandardDeviation(entry.Value);
+
+            }
+
+            return dataGridView;
+        }
 
         /// <summary>
         /// Creates a bar plot for binary data, labeling each category with custom labels.
