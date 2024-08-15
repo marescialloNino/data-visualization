@@ -99,8 +99,7 @@
           "Accord": "3.8.0",
           "Accord.MachineLearning": "3.8.0",
           "Accord.Math": "3.8.0",
-          "Accord.Statistics": "3.8.0",
-          "CsvHelper": "33.0.1"
+          "Accord.Statistics": "3.8.0"
         },
         "runtime": {
           "liver-disease-prediction.dll": {}

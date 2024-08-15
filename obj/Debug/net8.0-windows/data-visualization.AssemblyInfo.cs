@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("data-visualization")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0ab4d06ac9935c4c25999e0834ce16326f7ef2ce")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d811da74e5b154195b4b78b05f56dd56105f5c3f")]
 [assembly: System.Reflection.AssemblyProductAttribute("data-visualization")]
 [assembly: System.Reflection.AssemblyTitleAttribute("data-visualization")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

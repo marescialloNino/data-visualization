@@ -1,4 +1,10 @@
-﻿namespace data_visualization
+﻿
+using System.Windows.Forms;
+using System.Drawing;
+
+
+
+namespace data_visualization
 {
     partial class Form1
     {
@@ -394,7 +400,7 @@
             dataGridViewStats.Location = new Point(36, 23);
             dataGridViewStats.Name = "dataGridViewStats";
             dataGridViewStats.RowHeadersWidth = 51;
-            dataGridViewStats.Size = new Size(1322, 564);
+            dataGridViewStats.Size = new Size(1104, 463);
             dataGridViewStats.TabIndex = 0;
             // 
             // Form1

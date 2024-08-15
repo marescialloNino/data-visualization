@@ -7,6 +7,11 @@ using OxyPlot.WindowsForms;
 using liver_disease_prediction.utility;
 using liver_disease_prediction.dataModels;
 using System.Data;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+using System.Linq;
+
 
 namespace data_visualization
 {
